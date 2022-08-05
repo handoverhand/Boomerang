@@ -23,6 +23,7 @@ function runInteractiveConsole() {
       // Вызывает команду, соответствующую нажатой кнопке.
       if (key.name in keyboard) {
         keyboard[key.name]();
+        console.log(key.name);
       }
       // Прерывание программы.
       if (key.ctrl && key.name === 'c') {
@@ -32,7 +33,7 @@ function runInteractiveConsole() {
   });
   process.stdin.setRawMode(true);
 }
-
+runInteractiveConsole();
 // Давай попробуем запустить этот скрипт!
 
 
