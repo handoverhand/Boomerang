@@ -1,5 +1,5 @@
 // Наш герой.
-
+const createLeaderBoard = require('../../createTable.js')
 const Boomerang = require("./Boomerang");
 
 class Hero {
@@ -24,11 +24,13 @@ class Hero {
     return this.boomerang.fly();
   }
 
-  die(name, score) {
+  async die(username, score) {
     this.skin = '💀';
-    console.log(`${name}, score: ${score}`);
+    console.log(`${username}, score: ${score}`);
+    await createLeaderBoard({username, score})
     process.exit();
   }
 }
+
 
 module.exports = Hero;

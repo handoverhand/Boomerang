@@ -56,6 +56,7 @@ class Game {
         enemy.die();
       }
       if (this.hero.position === enemy.position) {
+        enemy.die();
         this.hero.die(this.name, this.score);
       }
     });
