@@ -3,6 +3,7 @@ const Enemy = require('./game-models/Enemy');
 // const Boomerang = require('./game-models/Boomerang');
 const View = require('./View');
 const runInteractiveConsole = require('./keyboard.js');
+const rega = require('../src/registration')
 const Boomerang = require('./game-models/Boomerang');
 // Основной класс игры.
 // Тут будут все настройки, проверки, запуск.
@@ -51,6 +52,7 @@ class Game {
   randomEnemyCreate = () => Math.random() > 0.5;
   
   play() {
+rega()
     runInteractiveConsole(this);
     // создаем нового врага
     setInterval(() => {
