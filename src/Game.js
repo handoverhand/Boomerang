@@ -6,6 +6,8 @@ const Hero = require('./game-models/Hero');
 const Enemy = require('./game-models/Enemy');
 // const Boomerang = require('./game-models/Boomerang');
 const View = require('./View');
+const runInteractiveConsole = require('./keyboard.js');
+const Boomerang = require('./game-models/Boomerang');
 
 // Основной класс игры.
 // Тут будут все настройки, проверки, запуск.
@@ -13,33 +15,50 @@ const View = require('./View');
 class Game {
   constructor({ trackLength }) {
     this.trackLength = trackLength;
-    this.hero = new Hero(); // Герою можно аргументом передать бумеранг.
-    this.enemy = new Enemy();
+    this.boomerang = new Boomerang();
+    this.hero = new Hero(0, this.boomerang);
+    this.enemy = new Enemy(this.trackLength - 1);
     this.view = new View();
     this.track = [];
+    this.flyId = null;
     this.regenerateTrack();
   }
 
   regenerateTrack() {
-    // Сборка всего необходимого (герой, враг(и), оружие)
-    // в единую структуру данных
-    this.track = (new Array(this.trackLength)).fill(' ');
+    this.track = (new Array(this.trackLength)).fill('  ');
     this.track[this.hero.position] = this.hero.skin;
-  }
+    this.track[this.enemy.position] = this.enemy.skin;
+    if(this.boomerang.inAir) {
+      this.track[this.boomerang.position] = this.boomerang.skin;
+    }
 
   check() {
+    if (this.boomerang.position <= this.hero.position && !this.boomerang.direction) {
+      this.boomerang.inAir = false;
+      this.boomerang.position = Infinity;
+      this.boomerang.position = this.hero.position;
+      clearInterval(this.flyId);
+    }
+    if (this.boomerang.position >= this.trackLength - 1) {
+      this.boomerang.direction = false;
+    }
+    if (this.enemy.position === this.boomerang.position) {
+      this.boomerang.direction = false;
+      this.enemy.die()
+    }
     if (this.hero.position === this.enemy.position) {
       this.hero.die();
     }
   }
+  }
 
   play() {
+    runInteractiveConsole(this);
     setInterval(() => {
-      // Let's play!
       this.check();
       this.regenerateTrack();
       this.view.render(this.track);
-    });
+    }, 50);
   }
 }
 
