@@ -5,8 +5,8 @@
 const Hero = require('./game-models/Hero');
 const Enemy = require('./game-models/Enemy');
 // const Boomerang = require('./game-models/Boomerang');
-const runInteractiveConsole = require('./keyboard')
 const View = require('./View');
+const runInteractiveConsole = require('./keyboard.js');
 const Boomerang = require('./game-models/Boomerang');
 
 // Основной класс игры.
@@ -15,21 +15,22 @@ const Boomerang = require('./game-models/Boomerang');
 class Game {
   constructor({ trackLength }) {
     this.trackLength = trackLength;
-    this.hero = new Hero(0); // Герою можно аргументом передать бумеранг.
-    this.enemy = new Enemy();
+    this.boomerang = new Boomerang();
+    this.hero = new Hero(0, this.boomerang);
+    this.enemy = new Enemy(this.trackLength - 1);
     this.view = new View();
     this.track = [];
+    this.flyId = null;
     this.regenerateTrack();
   }
 
   regenerateTrack() {
-    // Сборка всего необходимого (герой, враг(и), оружие)
-    // в единую структуру данных
-    this.track = (new Array(this.trackLength)).fill(' ');
+    this.track = (new Array(this.trackLength)).fill('  ');
     this.track[this.hero.position] = this.hero.skin;
-    
-
-  }
+    this.track[this.enemy.position] = this.enemy.skin;
+    if(this.boomerang.inAir) {
+      this.track[this.boomerang.position] = this.boomerang.skin;
+    }
 
   check() {
     if (this.hero.position === this.enemy.position) {
@@ -40,7 +41,7 @@ class Game {
   play() {
     setInterval(() => {
       // Let's play!
-      runInteractiveConsole(this);  
+      runInteractiveConsole(this);
       this.check();
       this.regenerateTrack();
       this.view.render(this.track);

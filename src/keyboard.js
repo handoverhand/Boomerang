@@ -33,7 +33,6 @@ function runInteractiveConsole() {
   });
   process.stdin.setRawMode(true);
 }
-runInteractiveConsole();
 // Давай попробуем запустить этот скрипт!
 
 
