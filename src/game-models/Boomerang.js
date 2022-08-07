@@ -2,10 +2,13 @@
 // В дальнейшем можно добавить другое оружие.
 // Тогда можно будет создать класс Weapon и воспользоваться наследованием!
 
+const Enemy = require("./Enemy");
+const Hero = require("./Hero");
+
 class Boomerang {
   constructor() {
     this.skin = '🌀';
-    this.position = Infinity;
+    this.position = undefined;
     this.direction = null;
     this.inAir = false;
   }
@@ -19,7 +22,7 @@ class Boomerang {
       } else {
         this.position -= 1;
       }
-    }, 50);
+    }, 50)
   }
 }
 

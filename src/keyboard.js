@@ -3,37 +3,33 @@
 // Главное не используй всё вместе!
 
 const keypress = require('keypress');
+const Hero = require('./game-models/Hero');
 
-// Управление.
-// Настроим соответствия нажатий на клавиши и действий в игре.
-
-// Какая-то функция.
-
-function runInteractiveConsole() {
+function runInteractiveConsole(game) {
   const keyboard = {
-    a: () =>  game.hero.moveLeft(),
+    a: () => game.hero.moveLeft(),
     d: () => game.hero.moveRight(),
-    space: () => game.hero.attack(),
+    space: () => {
+      if(!game.boomerang.inAir) {
+        game.flyId = game.hero.attack()
+      }
+    },
+  };
 
-  }
   keypress(process.stdin);
-  process.stdin.on('keypress', (ch, key) => {
+  process.stdin.on('keypress', (_, key) => {
     if (key) {
-      
-      // Вызывает команду, соответствующую нажатой кнопке.
       if (key.name in keyboard) {
         keyboard[key.name]();
-        console.log(key.name);
       }
-      // Прерывание программы.
-      if (key.ctrl && key.name === 'c') {
+
+      if (key.ctrl && key.name === 'z') {
         process.exit();
       }
     }
   });
   process.stdin.setRawMode(true);
 }
-// Давай попробуем запустить этот скрипт!
 
 
 module.exports = runInteractiveConsole;
