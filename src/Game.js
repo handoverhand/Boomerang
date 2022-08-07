@@ -53,13 +53,12 @@ class Game {
   }
 
   play() {
+    runInteractiveConsole(this);
     setInterval(() => {
-      // Let's play!
-      runInteractiveConsole(this);
       this.check();
       this.regenerateTrack();
       this.view.render(this.track);
-    });
+    }, 50);
   }
 }
 
