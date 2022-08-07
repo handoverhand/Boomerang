@@ -1,31 +1,36 @@
 // Наш герой.
+const createLeaderBoard = require('../../createTable.js')
+const Boomerang = require("./Boomerang");
 
 class Hero {
-  constructor({ position }) {
-    this.skin = '🤠'; // можете использовать любые emoji '💃'
+  constructor(position, boomerang) {
+    this.skin = '💃'; // можете использовать любые emoji '💃🤠'
     this.position = position;
+    this.boomerang = boomerang;
   }
 
   moveLeft() {
-    // Идём влево.
-    this.position -= 1;
+    if (this.position > 0) {
+      this.position -= 1;
+    }
   }
 
   moveRight() {
-    // Идём вправо.
     this.position += 1;
   }
 
   attack() {
-    // Атакуем.
-    this.boomerang.fly();
+    this.boomerang.position = this.position + 1;
+    return this.boomerang.fly();
   }
 
-  die() {
+  async die(username, score) {
     this.skin = '💀';
-    console.log('YOU ARE DEAD!💀');
+    console.log(`${username}, score: ${score}`);
+    await createLeaderBoard({username, score})
     process.exit();
   }
 }
+
 
 module.exports = Hero;
