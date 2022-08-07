@@ -33,8 +33,11 @@ class Game {
     }
 
   check() {
-    if (this.hero.position === this.enemy.position) {
-      this.hero.die();
+    if (this.boomerang.position <= this.hero.position && !this.boomerang.direction) {
+      this.boomerang.inAir = false;
+      this.boomerang.position = Infinity;
+      this.boomerang.position = this.hero.position;
+      clearInterval(this.flyId);
     }
   }
 
