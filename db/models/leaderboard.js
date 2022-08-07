@@ -1,7 +1,7 @@
-'use strict';
 const {
-  Model
+  Model,
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class LeaderBoard extends Model {
     /**
@@ -19,12 +19,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     username: {
       type: DataTypes.TEXT,
       allowNull: false,
-      unique: true 
+      unique: true,
     },
     score: {
       type: DataTypes.INTEGER,
@@ -32,19 +32,19 @@ module.exports = (sequelize, DataTypes) => {
     },
     createdAt: {
       allowNull: false,
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
     },
     updatedAt: {
       allowNull: false,
-      type: DataTypes.DATE
-    }
-  }
+      type: DataTypes.DATE,
+    },
+  };
 
   const options = {
     sequelize,
     modelName: 'LeaderBoard',
     tableName: 'LeaderBoards',
-  }
+  };
 
   LeaderBoard.init(attributes, options);
   return LeaderBoard;
